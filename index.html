@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Empire ABA — TEST: Full AI via Make</title>
+<style>
+  body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,sans-serif;background:#14142b;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center}
+  .card{max-width:580px;padding:28px;line-height:1.6}
+  h1{font-weight:600;margin-bottom:6px}
+  .tag{display:inline-block;background:#ffb020;color:#3a2600;font-weight:700;padding:3px 10px;border-radius:20px;font-size:13px}
+  em{color:#8ef5c0;font-style:normal;font-weight:600}
+  .note{font-size:14px;opacity:.75;margin-top:18px}
+  code{background:rgba(255,255,255,.14);padding:2px 6px;border-radius:5px;font-size:13px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <span class="tag">DEBUG MODE</span>
+    <h1>Empire ABA chat — Riley</h1>
+    <p>Your avatar is now the launcher, the header, and every message bubble.
+    Lead fires as soon as a <em>phone or email</em> appears.</p>
+    <p class="note">Add your lead webhook to <code>leadEndpoint</code> to see it send.</p>
+  </div>
+
+  <script>
+    window.EMPIRE_CHAT = {
+      backend: "make",
+      mode: "ai",
+      debug: "true",
+      payload: "json",
+      chatEndpoint: "https://hook.us2.make.com/25klvurmjxsu4h4pg2fpz8hks5iukqbd",
+      leadEndpoint: "",
+      agent: "Riley",
+      title: "Empire ABA",
+      accent: "#2eaae1",
+      avatar: "data:image/jpeg;base64,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"
+    };
+  </script>
+  <script>
+/*!
+ * Empire ABA chat widget — single-file embed.
+ * ---------------------------------------------------------------------------
+ * Drop ONE <script> tag on the site; this injects a floating chat launcher.
+ * Everything renders inside a Shadow DOM, so it can't affect the host site's
+ * styles and the site can't affect it.
+ *
+ * Config via data-attributes on the <script> tag (or window.EMPIRE_CHAT):
+ *   data-endpoint (required)  Backend base URL.
+ *       - AI + Worker:  https://empire-aba-chat.<you>.workers.dev
+ *       - Make/n8n:     the full webhook URL
+ *   data-mode   "ai" | "capture"   default "ai"
+ *       "ai"      => free-text questions answered by Claude via <endpoint>/chat,
+ *                    finished lead POSTed to <endpoint>/lead
+ *       "capture" => no AI; scripted + canned FAQ only; finished lead POSTed to
+ *                    <endpoint> (use with a Make/n8n webhook)
+ *   data-agent  header name (default "Riley")
+ *   data-title  header subtitle (default "Empire ABA")
+ *   data-accent accent color (default "#2eaae1", Empire's blue)
+ *   data-avatar URL to an agent photo (optional)
+ * ---------------------------------------------------------------------------
+ */
+(function () {
+  "use strict";
+
+  var script = document.currentScript;
+  var cfg = window.EMPIRE_CHAT || {};
+  function attr(n, d) {
+    // Accept data-chat-endpoint on the tag, and either "chat-endpoint" or
+    // "chatEndpoint" in window.EMPIRE_CHAT.
+    var camel = n.replace(/-([a-z])/g, function (_, c) { return c.toUpperCase(); });
+    var v = (script && script.getAttribute("data-" + n)) || cfg[n] || cfg[camel];
+    return v || d;
+  }
+
+  var ENDPOINT = (attr("endpoint", "") || "").replace(/\/$/, "");
+  var MODE = attr("mode", "ai");
+  // "worker" = one base URL, we append /chat and /lead.
+  // "make"   = two separate webhook URLs, and POST as text/plain so the
+  //            browser skips the CORS preflight (Make doesn't answer OPTIONS).
+  var BACKEND = attr("backend", "worker");
+  var DEBUG = String(attr("debug", "")) === "true";
+  var AGENT = attr("agent", "Riley");
+  var TITLE = attr("title", "Empire ABA");
+  var ACCENT = attr("accent", "#2eaae1");
+  var AVATAR = attr("avatar", "");
+
+  var CHAT_URL = attr("chat-endpoint", "") || (ENDPOINT ? ENDPOINT + "/chat" : "");
+  var LEAD_URL =
+    attr("lead-endpoint", "") ||
+    (ENDPOINT ? (MODE === "capture" || BACKEND === "make" ? ENDPOINT : ENDPOINT + "/lead") : "");
+  var SIMPLE_POST = BACKEND === "make" || MODE === "capture";
+
+  if (!LEAD_URL && !CHAT_URL) {
+    console.warn("[Empire chat] No endpoint configured; widget disabled.");
+    return;
+  }
+  console.log("[Empire chat] mode=" + MODE + " backend=" + BACKEND + " chat=" + (CHAT_URL || "(none)") + " lead=" + (LEAD_URL || "(none)"));
+
+  var PHONES = {
+    Wilmington: "(910) 773-1234",
+    Triangle: "(984) 224-0007",
+    "Charlotte Metro": "(704) 981-2343",
+  };
+
+  /* ----------------------------- state --------------------------------- */
+  var lead = { interest: "", region: "", childAge: "", insurance: "", name: "", phone: "", email: "", notes: "" };
+  var transcript = [];
+  var step = "greeting";
+  var sending = false;
+  var opened = false;
+
+  /* --------------------------- canned FAQ ------------------------------ */
+  var FAQ = {
+    "What is ABA?":
+      "ABA helps your child master real-life skills \u2014 communication, social, daily living, and safety \u2014 through the science of how people learn. We study what motivates your child, set goals with your family, and build the skills that matter most to you.",
+    "Do you take my insurance?":
+      "We accept Medicaid and most major commercial plans (Blue Cross NC, UnitedHealthcare, Aetna, Cigna) plus NC Medicaid plans like Alliance, Vaya, Trillium, Partners, Healthy Blue, WellCare, Carolina Complete, and AmeriHealth Caritas. We verify your exact benefits for free before anything starts.",
+    "What's included?":
+      "A full package: in-home therapy, parent support, school collaboration, and community-based support \u2014 so progress carries across every setting.",
+    "Do you come to us?":
+      "Yes \u2014 we provide in-home ABA across Wilmington, the Triangle (Raleigh\u2013Durham), and Charlotte Metro.",
+    "How many hours per week?":
+      "It varies by child \u2014 a BCBA sets the right amount after an assessment, woven into normal daily routines. We'll walk you through what makes sense for your child.",
+    "How do we start?":
+      "Just your name, number, and email \u2014 our team reaches out, verifies insurance, and guides you through every step.",
+  };
+
+  /* --------------------------- scripted flow --------------------------- */
+  var FLOW = {
+    greeting: {
+      say: ["Hi! \uD83D\uDC4B I'm " + AGENT + " with Empire ABA.", "Are you looking into ABA therapy for your child?"],
+      chips: ["Yes, for my child", "I have questions", "I'm interested in a job"],
+      handle: function (t) {
+        lead.interest = t;
+        if (/job|career|hiring|work/i.test(t)) return jobPath();
+        if (/question/i.test(t)) return faqMenu();
+        return runStep("region");
+      },
+    },
+    region: {
+      say: ["Great \u2014 which part of North Carolina are you in?"],
+      chips: ["Wilmington", "Triangle / Raleigh-Durham", "Charlotte Metro", "Somewhere else in NC"],
+      handle: function (t) {
+        if (/wilmington/i.test(t)) lead.region = "Wilmington";
+        else if (/triangle|raleigh|durham/i.test(t)) lead.region = "Triangle";
+        else if (/charlotte/i.test(t)) lead.region = "Charlotte Metro";
+        else lead.region = "Other NC";
+        if (lead.region === "Other NC") {
+          botThen(
+            "We currently serve in-home across Wilmington, the Triangle, and Charlotte Metro. Leave your info and we'll see if we can help or let you know as we grow.",
+            function () { runStep("age"); }
+          );
+          return;
+        }
+        runStep("age");
+      },
+    },
+    age: {
+      say: ["How old is your child?"],
+      chips: ["Under 3", "3\u20135", "6\u201310", "11+"],
+      handle: function (t) { lead.childAge = t; runStep("insurance"); },
+    },
+    insurance: {
+      say: ["Thanks! Which insurance do you have?"],
+      chips: ["Medicaid", "Blue Cross NC", "UnitedHealthcare", "Aetna", "Cigna", "Other / not sure"],
+      handle: function (t) {
+        lead.insurance = t;
+        botSeq(
+          [
+            "Perfect \u2014 we accept Medicaid and most major commercial plans, and our team verifies your exact benefits for free before anything starts.",
+            "Let's get you set up so someone can reach out. What's your name?",
+          ],
+          function () { step = "name"; }
+        );
+      },
+    },
+    name: {
+      handle: function (t) { lead.name = t; askPhone(); },
+    },
+    phone: {
+      validate: function (t) { return (t.match(/\d/g) || []).length >= 7 ? null : "Hmm, that looks short \u2014 mind re-entering the number?"; },
+      handle: function (t) { lead.phone = t; botThen("And your email?", function () { step = "email"; }); },
+    },
+    email: {
+      validate: function (t) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t.trim()) ? null : "That email looks off \u2014 mind checking it?"; },
+      handle: function (t) {
+        lead.email = t.trim();
+        botThen("Almost done! Anything you'd like the team to know? (Or tap Skip.)", function () { step = "notes"; showChips(["Skip"]); });
+      },
+    },
+    notes: {
+      handle: function (t) { if (!/^skip$/i.test(t)) lead.notes = t; finish(); },
+    },
+  };
+
+  function askPhone() {
+    var n = firstName(lead.name);
+    botThen("Nice to meet you" + (n ? ", " + n : "") + "! What's the best phone number to reach you?", function () { step = "phone"; });
+  }
+
+  function jobPath() {
+    lead.interest = "Job seeker";
+    botSeq(
+      ["Love that! You can see openings at empireaba.com/enrollment.", "Want someone to reach out? What's your name?"],
+      function () { step = "name"; }
+    );
+  }
+
+  function faqMenu() {
+    step = "faq";
+    botThen("Sure! What would you like to know?", function () {
+      showChips(Object.keys(FAQ).concat(["Actually, let's get started"]));
+    });
+  }
+
+  /* --------------------------- flow engine ----------------------------- */
+  function runStep(name) {
+    step = name;
+    var s = FLOW[name];
+    if (!s || !s.say) return;
+    var lines = typeof s.say === "function" ? s.say() : s.say;
+    botSeq(lines, function () { if (s.chips) showChips(s.chips); });
+  }
+
+  function submit(text) {
+    text = (text || "").trim();
+    if (!text || sending) return;
+    input.value = "";
+    clearChips();
+    addMe(text);
+    harvestContact(text);
+    route(text);
+  }
+
+  function route(text) {
+    // Full AI mode: Claude handles everything, including gathering details.
+    if (MODE === "ai") return answerWithAI(text);
+
+    // FAQ menu selections
+    if (step === "faq") {
+      // In AI mode we let Claude answer even the listed questions, so the bot
+      // sounds live. Canned answers are for capture mode (no AI available).
+      if (FAQ[text] && MODE !== "ai") {
+        botThen(FAQ[text], function () {
+          botThen("Want us to reach out and get you set up?", function () {
+            showChips(["Yes, let's go", "Ask another question"]);
+            step = "faq_followup";
+          });
+        });
+        return;
+      }
+      if (/started|go|yes/i.test(text)) return runStep("region");
+      // typed free text in FAQ menu
+      return answerFree(text, function () { faqMenu(); });
+    }
+    if (step === "faq_followup") {
+      if (/another|question/i.test(text)) return faqMenu();
+      return runStep("region");
+    }
+
+    var s = FLOW[step];
+
+    // If they ask a question at any point, answer it, then resume the flow.
+    // (Chip labels never look like questions, so taps still follow the script.)
+    if (s && looksLikeQuestion(text)) {
+      answerFree(text, function () { reAsk(step); });
+      return;
+    }
+
+    if (!s || !s.handle) {
+      // after finish: free chat (AI) or gentle capture (non-AI)
+      return answerFree(text);
+    }
+
+    if (s.validate) {
+      var err = s.validate(text);
+      if (err) return botThen(err);
+    }
+    s.handle(text);
+  }
+
+  function reAsk(name) {
+    var s = FLOW[name];
+    if (!s) return;
+    if (name === "phone") return askPhone();
+    if (name === "email") return botThen("And your email?");
+    if (name === "name") return botThen("What's your name?");
+    if (!s.say) return;
+    var lines = typeof s.say === "function" ? s.say() : s.say;
+    botThen(lines[lines.length - 1], function () { if (s.chips) showChips(s.chips); });
+  }
+
+  // Free-text handler: AI mode -> Claude; capture mode -> keyword FAQ or catch-all.
+  function answerFree(text, then) {
+    if (MODE === "ai") return answerWithAI(text, then);
+    var hit = keywordFaq(text);
+    if (hit) {
+      botThen(FAQ[hit], function () { if (then) then(); else botThen("Want us to reach out? What's the best number to reach you?", function () { step = "phone"; }); });
+      return;
+    }
+    botThen("Great question \u2014 our team can go deep on that for you. What's the best number to reach you?", function () {
+      step = "phone";
+      if (then) then();
+    });
+  }
+
+  function keywordFaq(t) {
+    t = t.toLowerCase();
+    if (/insur|medicaid|cover|plan|blue cross|aetna|cigna|united/.test(t)) return "Do you take my insurance?";
+    if (/hour|how (much|long|often)|week|schedule/.test(t)) return "How many hours per week?";
+    if (/where|area|come|home|location|serve/.test(t)) return "Do you come to us?";
+    if (/what is aba|what.?s aba|how.*work|about aba/.test(t)) return "What is ABA?";
+    if (/start|begin|sign up|enroll|first step/.test(t)) return "How do we start?";
+    if (/includ|offer|service/.test(t)) return "What's included?";
+    return null;
+  }
+
+  /* ------------------------------ AI ----------------------------------- */
+  function answerWithAI(text, then) {
+    sending = true;
+    showTyping();
+    fetch(CHAT_URL, buildPost({
+      transcriptText: transcriptAsText(),
+      lastMessage: text || "",
+      page: location.href,
+    }, { messages: aiMessages(), transcriptText: transcriptAsText(), lead: lead, page: location.href }))
+      // Read as text first. A no-code webhook may return JSON, plain text, or
+      // the word "Accepted" (which means it never sent a reply back).
+      .then(function (r) {
+        return r.text().then(function (t) { return { ok: r.ok, status: r.status, text: t }; });
+      })
+      .then(function (res) {
+        hideTyping();
+        if (DEBUG) console.log("[Empire chat] HTTP " + res.status + " <- " + res.text.slice(0, 400));
+
+        if (!res.ok) return problem("HTTP " + res.status + " from the backend. " + hint(res.status));
+
+        var raw = (res.text || "").trim();
+        if (!raw) return problem("Backend returned an empty body.");
+
+        // "Accepted" = Make received it but no Webhook response module ran.
+        if (/^accepted$/i.test(raw)) {
+          return problem('Backend replied "Accepted" with no content \u2014 add a "Webhook response" module at the end of the scenario.');
+        }
+
+        var reply = "";
+        try {
+          var d = JSON.parse(raw);
+          reply = d.reply || d.text || d.content || "";
+          if (!reply) return problem("Response JSON had no reply field. Got: " + raw.slice(0, 200));
+        } catch (e) {
+          reply = raw; // plain-text reply is fine too
+        }
+
+        var m = reply.match(/\[\[(?:LEAD|DONE)([^\]]*)\]\]/i);
+        if (m) {
+          reply = reply.replace(m[0], "").trim();
+          parseLeadFields(m[1] || "");
+        }
+        addBot(reply);
+        // Send whatever we have as soon as it's actionable, marker or not.
+        maybeSendLead(m && /complete/i.test(m[1] || "") ? "complete" : "partial");
+      })
+      .catch(function (err) {
+        hideTyping();
+        if (DEBUG) console.error("[Empire chat] request failed:", err);
+        problem("Could not reach the backend (network or CORS). Check the console, and make sure the response sends an Access-Control-Allow-Origin header.");
+      })
+      .finally(function () { sending = false; if (then) setTimeout(then, 400); });
+  }
+
+  // Builds the fetch options. For no-code backends (Make/n8n) we send
+  // application/x-www-form-urlencoded: it's a CORS "simple request" (no
+  // preflight) AND those platforms parse it into fields natively, so no
+  // "Parse JSON" module is needed. The Worker gets normal JSON.
+  function buildPost(flatFields, jsonBody) {
+    if (!SIMPLE_POST) {
+      return { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(jsonBody) };
+    }
+    if (PAYLOAD === "form") {
+      return {
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: formEncode(flatFields),
+      };
+    }
+    // Default for no-code: JSON body sent as text/plain. Still a CORS "simple
+    // request" (no preflight), and it's the shape Make is already parsing.
+    return { method: "POST", headers: { "content-type": "text/plain;charset=UTF-8" }, body: JSON.stringify(jsonBody) };
+  }
+
+  function formEncode(obj) {
+    var parts = [];
+    for (var k in obj) {
+      if (!Object.prototype.hasOwnProperty.call(obj, k)) continue;
+      var v = obj[k];
+      if (v === undefined || v === null) v = "";
+      parts.push(encodeURIComponent(k) + "=" + encodeURIComponent(String(v)));
+    }
+    return parts.join("&");
+  }
+
+  // "json" (default, matches Make setups that parse a JSON body) or "form"
+  var PAYLOAD = String(attr("payload", "json")).toLowerCase();
+  var leadSentSig = "";
+
+  function leadSignature() {
+    return [lead.name, lead.phone, lead.email, lead.region, lead.childAge, lead.insurance].join("|");
+  }
+
+  // Backup extraction: if the visitor types an email or phone, capture it
+  // ourselves. This means a lead survives even if the AI forgets the marker.
+  function harvestContact(t) {
+    var em = t.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+    if (em && !lead.email) lead.email = em[0];
+    if (!lead.phone) {
+      var digits = (t.match(/\d/g) || []).length;
+      if (digits >= 10 && digits <= 11 && /^[\d\s().+-]+$/.test(t.trim())) lead.phone = t.trim();
+    }
+  }
+
+  // Send as soon as there's something actionable, and again if details change.
+  function maybeSendLead(status) {
+    if (!LEAD_URL) return;
+    if (!lead.phone && !lead.email) return; // nothing to act on yet
+    var sig = leadSignature();
+    if (sig === leadSentSig) return; // nothing new since last send
+    leadSentSig = sig;
+    sendLead(status || "partial");
+  }
+
+  // Last resort: visitor closes the tab. sendBeacon survives page teardown.
+  function flushLead() {
+    if (!LEAD_URL) return;
+    if (!lead.phone && !lead.email) return;
+    if (leadSignature() === leadSentSig) return;
+    leadSentSig = leadSignature();
+    try {
+      var payload = JSON.stringify(leadPayload("abandoned"));
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(LEAD_URL, new Blob([payload], { type: "text/plain;charset=UTF-8" }));
+      }
+    } catch (e) {
+      /* nothing more we can do at unload */
+    }
+  }
+
+  function hint(status) {
+    if (status === 400) return "Make often returns 400 when the scenario isn't listening \u2014 click Run once, or switch it ON.";
+    if (status === 404 || status === 410) return "That webhook URL wasn't found \u2014 double-check it.";
+    if (status >= 500) return "The scenario errored \u2014 open its execution history in Make.";
+    return "";
+  }
+
+  // In debug mode show the real reason in the chat; otherwise stay friendly.
+  function problem(msg) {
+    if (DEBUG) { addBot("\u26a0\ufe0f " + msg); return; }
+    addBot("Sorry, I had trouble there \u2014 but leave your details and the team will help!");
+  }
+
+  // Pulls key="value" pairs out of the [[DONE ...]] marker, if Claude sent any.
+  // The lead email always includes the full transcript too, so this is a bonus,
+  // not something the flow depends on.
+  function parseLeadFields(s) {
+    var re = /(\w+)\s*=\s*"([^"]*)"/g, m;
+    while ((m = re.exec(s))) {
+      var k = m[1].toLowerCase();
+      var v = m[2];
+      if (k === "name") lead.name = v;
+      else if (k === "phone") lead.phone = v;
+      else if (k === "email") lead.email = v;
+      else if (k === "region") lead.region = v;
+      else if (k === "age" || k === "childage") lead.childAge = v;
+      else if (k === "insurance") lead.insurance = v;
+      else if (k === "notes") lead.notes = v;
+    }
+  }
+
+  function aiMessages() {
+    return transcript
+      .filter(function (m) { return m.role === "user" || m.role === "assistant"; })
+      .slice(-12)
+      .map(function (m) { return { role: m.role === "user" ? "user" : "assistant", content: m.content }; });
+  }
+
+  // A ready-to-read plain-text version of the conversation. Useful for
+  // no-code backends (Make/n8n) whose AI modules take one big text prompt —
+  // you can map this string straight in, no JSON functions needed.
+  function transcriptAsText() {
+    return transcript
+      .filter(function (m) { return m.role === "user" || m.role === "assistant"; })
+      .slice(-12)
+      .map(function (m) { return (m.role === "user" ? "Visitor: " : "Riley: ") + m.content; })
+      .join("\n");
+  }
+  function finish() {
+    var n = firstName(lead.name);
+    var num = PHONES[lead.region];
+    var tail = num ? " If you'd rather call now, we're at " + num + "." : "";
+    botThen("Thank you" + (n ? ", " + n : "") + "! \uD83C\uDF89 Someone from our Empire ABA team will reach out very soon." + tail + " Talk soon!", function () {
+      sendLead();
+    });
+  }
+  function leadPayload(status) {
+    return {
+      lead: lead,
+      status: status || "partial",
+      transcript: transcript,
+      transcriptText: transcriptAsText(),
+      source: location.href,
+    };
+  }
+
+  function sendLead(status) {
+    if (!LEAD_URL) { if (DEBUG) console.warn("[Empire chat] no lead endpoint set; skipping"); return; }
+    var flat = {
+      name: lead.name, phone: lead.phone, email: lead.email,
+      region: lead.region, childAge: lead.childAge, insurance: lead.insurance,
+      interest: lead.interest, notes: lead.notes, status: status || "partial",
+      transcriptText: transcriptAsText(), source: location.href,
+    };
+    if (DEBUG) console.log("[Empire chat] sending lead (" + (status || "partial") + ")", flat);
+    fetch(LEAD_URL, buildPost(flat, leadPayload(status)))
+      .then(function () { if (DEBUG) console.log("[Empire chat] lead sent"); })
+      .catch(function (e) { console.warn("[Empire chat] lead POST failed", e); });
+  }
+
+  /* ----------------------------- styles -------------------------------- */
+  var CSS =
+    ":host{all:initial}*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}" +
+    ".launcher{position:fixed;bottom:22px;right:22px;width:62px;height:62px;border-radius:50%;background:#fff;border:none;padding:0;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.24);z-index:2147483000;transition:transform .18s ease}" +
+    ".launcher:hover{transform:scale(1.06)}" +
+    ".launcher .lav{display:block;width:100%;height:100%;border-radius:50%;overflow:hidden}" +
+    ".launcher .lav img{width:100%;height:100%;object-fit:cover}" +
+    ".launcher .presence{position:absolute;right:3px;bottom:3px;width:14px;height:14px;border-radius:50%;background:#22c55e;border:2.5px solid #fff}" +
+    ".badge{position:fixed;bottom:70px;right:92px;background:#fff;color:#1a1a2e;padding:10px 14px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.18);font-size:14px;max-width:220px;z-index:2147483000;animation:pop .3s ease;cursor:pointer}" +
+    ".panel{position:fixed;bottom:22px;right:22px;width:380px;max-width:calc(100vw - 32px);height:600px;max-height:calc(100vh - 44px);background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.28);display:flex;flex-direction:column;overflow:hidden;z-index:2147483001;opacity:0;transform:translateY(16px) scale(.98);pointer-events:none;transition:opacity .22s ease,transform .22s ease}" +
+    ".panel.open{opacity:1;transform:none;pointer-events:auto}" +
+    ".hdr{background:" + ACCENT + ";color:#fff;padding:16px 18px;display:flex;align-items:center;gap:12px}" +
+    ".hdr .av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.25);flex:0 0 auto;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px}" +
+    ".hdr .av img{width:100%;height:100%;object-fit:cover}.hdr .meta{flex:1;min-width:0}.hdr .name{font-weight:600;font-size:15px;line-height:1.2}" +
+    ".hdr .status{font-size:12px;opacity:.85;display:flex;align-items:center;gap:5px;margin-top:2px}.hdr .dot{width:7px;height:7px;border-radius:50%;background:#8ef5c0}" +
+    ".hdr .x{background:none;border:none;color:#fff;cursor:pointer;font-size:22px;line-height:1;opacity:.85;padding:4px}.hdr .x:hover{opacity:1}" +
+    ".body{flex:1;overflow-y:auto;padding:18px 16px;background:#f7f7fb;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}" +
+    ".row{display:flex;gap:8px;align-items:flex-end;max-width:100%}.row.bot{justify-content:flex-start}.row.me{justify-content:flex-end}" +
+    ".mav{width:26px;height:26px;border-radius:50%;flex:0 0 auto;overflow:hidden;background:" + ACCENT + ";display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600}.mav img{width:100%;height:100%;object-fit:cover}" +
+    ".bubble{padding:10px 14px;border-radius:16px;font-size:14.5px;line-height:1.45;max-width:76%;white-space:pre-wrap;word-wrap:break-word;animation:pop .22s ease}" +
+    ".bot .bubble{background:#fff;color:#1e1e2e;border-bottom-left-radius:5px;box-shadow:0 1px 2px rgba(0,0,0,.06)}" +
+    ".me .bubble{background:" + ACCENT + ";color:#fff;border-bottom-right-radius:5px}" +
+    ".chips{display:flex;flex-wrap:wrap;gap:8px;padding:2px 0 4px 34px}" +
+    ".chip{background:#fff;border:1.5px solid " + ACCENT + ";color:" + ACCENT + ";padding:7px 13px;border-radius:20px;font-size:13.5px;cursor:pointer;transition:background .15s,color .15s}.chip:hover{background:" + ACCENT + ";color:#fff}" +
+    ".typing{display:flex;gap:4px;padding:12px 14px;background:#fff;border-radius:16px;border-bottom-left-radius:5px;width:fit-content;box-shadow:0 1px 2px rgba(0,0,0,.06)}" +
+    ".typing span{width:7px;height:7px;border-radius:50%;background:#bbb;animation:blink 1.2s infinite}.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}" +
+    ".foot{border-top:1px solid #ececf3;padding:10px;display:flex;gap:8px;align-items:center;background:#fff}" +
+    ".foot input{flex:1;border:none;outline:none;font-size:14.5px;padding:10px 12px;background:#f2f2f7;border-radius:22px}" +
+    ".foot button{background:" + ACCENT + ";border:none;width:38px;height:38px;border-radius:50%;cursor:pointer;flex:0 0 auto;display:flex;align-items:center;justify-content:center}.foot button:disabled{opacity:.5}.foot button svg{width:18px;height:18px;fill:#fff}" +
+    ".powered{text-align:center;font-size:11px;color:#aaa;padding:0 0 8px;background:#fff}" +
+    "@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}@keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}" +
+    "@media(max-width:440px){.panel{bottom:0;right:0;width:100vw;height:100vh;max-height:100vh;border-radius:0}.launcher{bottom:16px;right:16px}}";
+
+  /* --------------------------- build DOM ------------------------------- */
+  var host = document.createElement("div");
+  host.id = "empire-chat-root";
+  document.body.appendChild(host);
+  var root = host.attachShadow({ mode: "open" });
+  var style = document.createElement("style");
+  style.textContent = CSS;
+  root.appendChild(style);
+
+  function faceSVG(a) {
+    return (
+      '<svg viewBox="0 0 64 64" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">' +
+      '<rect width="64" height="64" fill="#eaf3f8"/>' +
+      '<path d="M8 64c0-13 11-20 24-20s24 7 24 20z" fill="' + a + '"/>' +
+      '<circle cx="32" cy="24" r="15" fill="#5b3b2e"/>' +
+      '<circle cx="32" cy="29" r="12.5" fill="#f7cba4"/>' +
+      '<circle cx="27" cy="28" r="1.7" fill="#3a2a22"/>' +
+      '<circle cx="37" cy="28" r="1.7" fill="#3a2a22"/>' +
+      '<path d="M27 33c2.5 2.6 7.5 2.6 10 0" fill="none" stroke="#c2705a" stroke-width="1.7" stroke-linecap="round"/>' +
+      "</svg>"
+    );
+  }
+  var avImg = AVATAR ? '<img src="' + AVATAR + '" alt="">' : faceSVG(ACCENT);
+
+  var launcher = el("button", "launcher", '<span class="lav">' + avImg + '</span><span class="presence"></span>');
+  launcher.setAttribute("aria-label", "Open chat");
+  var badge = el("div", "badge", "\uD83D\uDC4B Questions about ABA therapy? Chat with us!");
+
+  var panel = el("div", "panel");
+  panel.innerHTML =
+    '<div class="hdr"><div class="av">' + avImg + '</div>' +
+    '<div class="meta"><div class="name">' + esc(AGENT) + " \u00b7 " + esc(TITLE) + '</div><div class="status"><span class="dot"></span>Online now</div></div>' +
+    '<button class="x" aria-label="Close">\u00d7</button></div>' +
+    '<div class="body" id="body"></div>' +
+    '<div class="foot"><input id="inp" type="text" placeholder="Type a message\u2026" autocomplete="off"/>' +
+    '<button id="send" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M3 20l18-8L3 4v6l12 2-12 2z"/></svg></button></div>' +
+    '<div class="powered">Powered by Empire ABA</div>';
+
+  root.appendChild(launcher);
+  root.appendChild(badge);
+  root.appendChild(panel);
+
+  var body = panel.querySelector("#body");
+  var input = panel.querySelector("#inp");
+  var sendBtn = panel.querySelector("#send");
+
+  badge.style.display = "none";
+  setTimeout(function () { if (!opened) badge.style.display = "block"; }, 1200);
+
+  launcher.addEventListener("click", openPanel);
+  badge.addEventListener("click", openPanel);
+  panel.querySelector(".x").addEventListener("click", closePanel);
+  sendBtn.addEventListener("click", function () { submit(input.value); });
+  input.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); submit(input.value); } });
+  // Catch visitors who give a number then close the tab.
+  window.addEventListener("pagehide", flushLead);
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") flushLead();
+  });
+
+  function openPanel() {
+    opened = true; badge.style.display = "none"; launcher.style.display = "none";
+    panel.classList.add("open"); input.focus();
+    if (transcript.length) return;
+    if (MODE === "ai") {
+      // Full AI mode: Claude runs the conversation. We show one instant
+      // greeting (no API call, so it feels immediate), then hand over.
+      step = "ai";
+      botSeq(["Hi! \uD83D\uDC4B I'm " + AGENT + " with Empire ABA.", "How can I help you today?"], function () {
+        showChips(["I'm looking for ABA for my child", "Do you take my insurance?", "How does it work?"]);
+      });
+      return;
+    }
+    runStep("greeting");
+  }
+  function closePanel() { panel.classList.remove("open"); launcher.style.display = "flex"; }
+
+  /* --------------------------- rendering ------------------------------- */
+  function botSeq(lines, done) { seq(lines, 0, done); }
+  function seq(lines, i, done) {
+    if (i >= lines.length) return done && done();
+    showTyping();
+    var delay = Math.min(950, 350 + lines[i].length * 11);
+    setTimeout(function () { hideTyping(); addBot(lines[i]); seq(lines, i + 1, done); }, delay);
+  }
+  function botThen(line, done) { botSeq([line], done); }
+
+  function addBot(text) {
+    transcript.push({ role: "assistant", content: text });
+    var row = document.createElement("div");
+    row.className = "row bot";
+    row.innerHTML = '<div class="mav">' + avImg + '</div><div class="bubble"></div>';
+    row.querySelector(".bubble").textContent = text;
+    body.appendChild(row); scroll();
+  }
+  function addMe(text) {
+    transcript.push({ role: "user", content: text });
+    var row = document.createElement("div");
+    row.className = "row me";
+    row.innerHTML = '<div class="bubble"></div>';
+    row.querySelector(".bubble").textContent = text;
+    body.appendChild(row); scroll();
+  }
+  function showChips(list) {
+    var wrap = document.createElement("div");
+    wrap.className = "chips";
+    list.forEach(function (label) {
+      var b = document.createElement("button");
+      b.className = "chip"; b.textContent = label;
+      b.addEventListener("click", function () { submit(label); });
+      wrap.appendChild(b);
+    });
+    body.appendChild(wrap); scroll();
+  }
+  function clearChips() { body.querySelectorAll(".chips").forEach(function (c) { c.remove(); }); }
+
+  var typingEl = null;
+  function showTyping() {
+    if (typingEl) return;
+    var row = document.createElement("div");
+    row.className = "row bot";
+    row.innerHTML = '<div class="mav">' + avImg + '</div><div class="typing"><span></span><span></span><span></span></div>';
+    body.appendChild(row); typingEl = row; scroll();
+  }
+  function hideTyping() { if (typingEl) { typingEl.remove(); typingEl = null; } }
+  function scroll() { body.scrollTop = body.scrollHeight; }
+
+  /* ----------------------------- utils --------------------------------- */
+  function looksLikeQuestion(t) { return /\?\s*$/.test(t.trim()) || /^(what|how|do|does|can|is|are|why|when|where|who|will|would)\b/i.test(t.trim()); }
+  function firstName(f) { return (f || "").trim().split(/\s+/)[0] || ""; }
+  function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html) e.innerHTML = html; return e; }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+})();
+
+  </script>
+</body>
+</html>
