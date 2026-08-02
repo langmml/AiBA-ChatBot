@@ -14,7 +14,7 @@ compatibility_date = "2025-01-01"
 #                   test you can use "onboarding@resend.dev".
 # ---------------------------------------------------------------------------
 [vars]
-ALLOWED_ORIGINS = "https://langmml.github.io"
+ALLOWED_ORIGINS = "https://aiba-chatbot.pages.dev,https://empireaba.com,https://www.empireaba.com"
 MODEL = "claude-haiku-4-5"
 LEAD_TO = "info@empireaba.com"
 LEAD_FROM = "Empire ABA Chat <chat@empireaba.com>"

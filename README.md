@@ -10,8 +10,8 @@ script tag and the API keys never reach the browser.
 - `worker/src/index.js` — the Worker: routes, system prompt, rate limiting, CORS.
 - `worker/src/widget.txt` — the widget's source. **This is the only copy.** The
   Worker imports it as a string and serves it at `/widget.js`.
-- `index.html` — a demo page published to GitHub Pages that loads the widget
-  from the deployed Worker.
+- `index.html` — a demo page published to Cloudflare Pages
+  (`aiba-chatbot.pages.dev`) that loads the widget from the deployed Worker.
 
 ## Routes
 
