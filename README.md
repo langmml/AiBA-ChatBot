@@ -61,16 +61,16 @@ commit. Edit them there and redeploy:
 ## Embedding on the client's site
 
 Add the Worker's origin to `ALLOWED_ORIGINS`, redeploy, then drop one tag on
-the page (replace `<SUB>` with your workers.dev subdomain):
+the page:
 
 ```html
-<script src="https://empire-aba-chat.<SUB>.workers.dev/widget.js"
-  data-endpoint="https://empire-aba-chat.<SUB>.workers.dev"
+<script src="https://aiba-chatbot.mml114128.workers.dev/widget.js"
+  data-endpoint="https://aiba-chatbot.mml114128.workers.dev"
   data-mode="ai"
   data-agent="Riley"
   data-title="Empire ABA"
   data-accent="#2eaae1"
-  data-avatar="https://empire-aba-chat.<SUB>.workers.dev/avatar.jpg"></script>
+  data-avatar="https://aiba-chatbot.mml114128.workers.dev/avatar.jpg"></script>
 ```
 
 Optional attributes: `data-mode="capture"` for a scripted flow with no AI, and

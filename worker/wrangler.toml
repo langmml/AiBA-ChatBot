@@ -1,4 +1,4 @@
-name = "empire-aba-chat"
+name = "aiba-chatbot"
 main = "src/index.js"
 compatibility_date = "2025-01-01"
 
@@ -27,8 +27,10 @@ LEAD_FROM = "Empire ABA Chat <chat@empireaba.com>"
 [[rules]]
 type = "Text"
 globs = ["**/*.txt"]
+fallthrough = true
 
 # Serves the avatar image straight from the Worker (imported as ArrayBuffer).
 [[rules]]
 type = "Data"
 globs = ["**/*.jpg"]
+fallthrough = true
