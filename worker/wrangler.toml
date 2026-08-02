@@ -1,0 +1,34 @@
+name = "empire-aba-chat"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# ---------------------------------------------------------------------------
+# Public config (safe to commit). Edit these, then run `npx wrangler deploy`.
+#
+# ALLOWED_ORIGINS : exact site origins allowed to call this Worker.
+#                   No trailing slash. Comma-separated. Add your Duda preview
+#                   URL too while testing, then remove it.
+# MODEL           : claude-sonnet-4-6 (balanced) or claude-haiku-4-5 (cheapest)
+# LEAD_TO         : inbox that receives leads
+# LEAD_FROM       : verified sender (see SETUP.md, Resend step). For a quick
+#                   test you can use "onboarding@resend.dev".
+# ---------------------------------------------------------------------------
+[vars]
+ALLOWED_ORIGINS = "https://langmml.github.io"
+MODEL = "claude-haiku-4-5"
+LEAD_TO = "info@empireaba.com"
+LEAD_FROM = "Empire ABA Chat <chat@empireaba.com>"
+
+# Secrets are NOT set here. Set them once from the terminal:
+#   npx wrangler secret put ANTHROPIC_API_KEY   (only needed for AI answers)
+#   npx wrangler secret put RESEND_API_KEY      (needed to email leads)
+
+# Lets the Worker import src/widget.txt as a string so it can serve the widget.
+[[rules]]
+type = "Text"
+globs = ["**/*.txt"]
+
+# Serves the avatar image straight from the Worker (imported as ArrayBuffer).
+[[rules]]
+type = "Data"
+globs = ["**/*.jpg"]
