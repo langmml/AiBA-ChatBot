@@ -14,10 +14,15 @@ compatibility_date = "2025-01-01"
 #                   test you can use "onboarding@resend.dev".
 # ---------------------------------------------------------------------------
 [vars]
-ALLOWED_ORIGINS = "https://aiba-chatbot.pages.dev,https://empireaba.com,https://www.empireaba.com"
+ALLOWED_ORIGINS = "https://aiba-chatbot.pages.dev,https://empireaba.com,https://www.empireaba.com,http://localhost:4321"
 MODEL = "claude-haiku-4-5"
-LEAD_TO = "info@empireaba.com"
-LEAD_FROM = "Empire ABA Chat <chat@empireaba.com>"
+# TEMPORARY until empireaba.com is verified in Resend. The shared
+# onboarding@resend.dev sender can only deliver to the Resend account owner's
+# own address, so LEAD_TO has to be josh@ for now. Once the domain is verified,
+# revert to: LEAD_TO = "info@empireaba.com"
+#            LEAD_FROM = "Empire ABA Chat <chat@empireaba.com>"
+LEAD_TO = "josh@empireaba.com"
+LEAD_FROM = "Empire ABA Chat <onboarding@resend.dev>"
 
 # Secrets are NOT set here. Set them once from the terminal:
 #   npx wrangler secret put ANTHROPIC_API_KEY   (only needed for AI answers)
