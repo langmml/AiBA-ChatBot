@@ -103,16 +103,16 @@
       },
     },
     region: {
-      say: ["Great \u2014 which part of North Carolina are you in?"],
-      chips: ["Wilmington", "Triangle / Raleigh-Durham", "Charlotte Metro", "Somewhere else in NC"],
+      say: ["What city or area are you in?"],
+      chips: ["Wilmington", "Triangle / Raleigh-Durham", "Charlotte Metro", "Another area"],
       handle: function (t) {
         if (/wilmington/i.test(t)) lead.region = "Wilmington";
         else if (/triangle|raleigh|durham/i.test(t)) lead.region = "Triangle";
         else if (/charlotte/i.test(t)) lead.region = "Charlotte Metro";
-        else lead.region = "Other NC";
-        if (lead.region === "Other NC") {
+        else lead.region = "Other";
+        if (lead.region === "Other") {
           botThen(
-            "We currently serve in-home across Wilmington, the Triangle, and Charlotte Metro. Leave your info and we'll see if we can help or let you know as we grow.",
+            "Great \u2014 we serve that area.",
             function () { runStep("age"); }
           );
           return;
@@ -522,7 +522,7 @@
     ".foot button{background:" + ACCENT + ";border:none;width:42px;height:42px;border-radius:50%;cursor:pointer;flex:0 0 auto;display:flex;align-items:center;justify-content:center}.foot button:disabled{opacity:.5}.foot button svg{width:19px;height:19px;fill:#fff}" +
     ".powered{text-align:center;font-size:12px;color:#aaa;padding:0 0 8px;background:#fff}" +
     "@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}@keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}" +
-    "@media(max-width:500px){.panel{bottom:0;right:0;width:100vw;height:100vh;max-height:100vh;border-radius:0}.launcher{bottom:16px;right:16px}}";
+    "@media(max-width:500px){.panel{bottom:16px;right:16px;width:calc(100vw - 32px);height:min(560px,68vh);max-height:calc(100dvh - 32px);border-radius:18px}.badge{right:16px;bottom:112px;max-width:calc(100vw - 32px)}.launcher{bottom:16px;right:16px}}";
 
   /* --------------------------- build DOM ------------------------------- */
   var host = document.createElement("div");
