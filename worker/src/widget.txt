@@ -102,18 +102,20 @@
       say: ["What city or area are you in?"],
       chips: ["Wilmington", "Triangle / Raleigh-Durham", "Charlotte Metro", "Another area"],
       handle: function (t) {
-        if (/wilmington/i.test(t)) lead.region = "Wilmington";
-        else if (/triangle|raleigh|durham/i.test(t)) lead.region = "Triangle";
-        else if (/charlotte/i.test(t)) lead.region = "Charlotte Metro";
-        else lead.region = "Other";
-        if (lead.region === "Other") {
-          botThen(
-            "Great \u2014 we serve that area.",
-            function () { runStep("age"); }
-          );
-          return;
+        if (/another area/i.test(t)) {
+          return botThen("What city or area are you in?", function () { step = "region_other"; });
         }
-        runStep("age");
+        if (/wilmington/i.test(t)) lead.region = "Wilmington";
+        else if (/triangle|raleigh|durham/i.test(t)) lead.region = "Triangle / Raleigh-Durham";
+        else if (/charlotte/i.test(t)) lead.region = "Charlotte Metro";
+        else lead.region = t;
+        botThen("Yes, we service " + lead.region + ".", function () { runStep("age"); });
+      },
+    },
+    region_other: {
+      handle: function (t) {
+        lead.region = t;
+        botThen("Yes, we service " + lead.region + ".", function () { runStep("age"); });
       },
     },
     age: {
