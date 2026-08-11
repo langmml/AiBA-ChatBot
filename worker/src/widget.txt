@@ -553,7 +553,7 @@
     ".foot button{background:" + ACCENT + ";border:none;width:42px;height:42px;border-radius:50%;cursor:pointer;flex:0 0 auto;display:flex;align-items:center;justify-content:center}.foot button:disabled{opacity:.5}.foot button svg{width:19px;height:19px;fill:#fff}" +
     ".powered{text-align:center;font-size:12px;color:#aaa;padding:0 0 8px;background:#fff}" +
     "@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}@keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}" +
-    "@media(max-width:500px){.panel{bottom:16px;right:16px;width:calc(100vw - 32px);height:min(560px,68vh);max-height:calc(100dvh - 32px);border-radius:18px}.badge{right:16px;bottom:112px;max-width:calc(100vw - 32px)}.launcher{bottom:16px;right:16px}}";
+    "@media(max-width:500px){.panel{bottom:16px;right:16px;width:calc(100vw - 32px);height:min(560px,68vh);max-height:calc(100dvh - 32px);border-radius:18px}.badge{right:16px;bottom:112px}.launcher{bottom:16px;right:16px}}";
 
   /* --------------------------- build DOM ------------------------------- */
   var host = document.createElement("div");
