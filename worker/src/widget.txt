@@ -61,11 +61,7 @@
   }
   if (DEBUG) console.log("[Empire chat] mode=" + MODE + " backend=" + BACKEND + " chat=" + (CHAT_URL || "(none)") + " lead=" + (LEAD_URL || "(none)"));
 
-  var PHONES = {
-    Wilmington: "(910) 773-1234",
-    Triangle: "(984) 224-0007",
-    "Charlotte Metro": "(704) 981-2343",
-  };
+  var PHONE = "910-773-1234";
 
   /* ----------------------------- state --------------------------------- */
   var lead = { interest: "", region: "", childAge: "", insurance: "", name: "", phone: "", email: "", notes: "" };
@@ -492,8 +488,7 @@
   }
   function finish() {
     var n = firstName(lead.name);
-    var num = PHONES[lead.region];
-    var tail = num ? " If you'd rather call now, we're at " + num + "." : "";
+    var tail = " If you'd rather call now, we're at " + PHONE + ".";
     botThen("Thank you" + (n ? ", " + n : "") + "! \uD83C\uDF89 Someone from our Empire ABA team will reach out very soon." + tail + " Talk soon!", function () {
       completeLead();
     });
