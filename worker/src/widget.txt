@@ -194,6 +194,7 @@
     clearChips();
     addMe(text);
     harvestContact(text);
+    scheduleInactiveLead();
     route(text);
   }
 
@@ -317,14 +318,16 @@
           reply = raw; // plain-text reply is fine too
         }
 
-        var m = reply.match(/\[\[(?:LEAD|DONE)([^\]]*)\]\]/i);
+        var m = reply.match(/\[\[(LEAD|DONE)([^\]]*)\]\]/i);
         if (m) {
           reply = reply.replace(m[0], "").trim();
-          parseLeadFields(m[1] || "");
+          parseLeadFields(m[2] || "");
         }
         addBot(reply);
-        // Send whatever we have as soon as it's actionable, marker or not.
-        maybeSendLead(m && /complete/i.test(m[1] || "") ? "complete" : "partial");
+        // A completed conversation sends immediately. Partial contact details
+        // wait until the visitor has been inactive for a full minute.
+        if (m && /^DONE$/i.test(m[1] || "")) completeLead();
+        else scheduleInactiveLead();
       })
       .catch(function (err) {
         hideTyping();
@@ -368,6 +371,9 @@
   // "json" (default, for backends that parse a JSON body) or "form"
   var PAYLOAD = String(attr("payload", "json")).toLowerCase();
   var leadSentSig = "";
+  var LEAD_IDLE_MS = 60 * 1000;
+  var leadIdleTimer = null;
+  var leadLastActivityAt = 0;
 
   function leadSignature() {
     return [lead.name, lead.phone, lead.email, lead.region, lead.childAge, lead.insurance].join("|");
@@ -384,8 +390,26 @@
     }
   }
 
-  // Send as soon as there's something actionable, and again if details change.
-  function maybeSendLead(status) {
+  function clearLeadIdleTimer() {
+    if (!leadIdleTimer) return;
+    clearTimeout(leadIdleTimer);
+    leadIdleTimer = null;
+  }
+
+  // Wait for one full minute with no new visitor activity before sending a
+  // partial lead. Each new message resets this timer.
+  function scheduleInactiveLead() {
+    clearLeadIdleTimer();
+    if (!LEAD_URL || (!lead.phone && !lead.email)) return;
+    if (leadSignature() === leadSentSig) return;
+    leadLastActivityAt = Date.now();
+    leadIdleTimer = setTimeout(function () {
+      leadIdleTimer = null;
+      sendLeadIfChanged("inactive");
+    }, LEAD_IDLE_MS);
+  }
+
+  function sendLeadIfChanged(status) {
     if (!LEAD_URL) return;
     if (!lead.phone && !lead.email) return; // nothing to act on yet
     var sig = leadSignature();
@@ -394,10 +418,17 @@
     sendLead(status || "partial");
   }
 
-  // Last resort: visitor closes the tab. sendBeacon survives page teardown.
+  function completeLead() {
+    clearLeadIdleTimer();
+    sendLeadIfChanged("complete");
+  }
+
+  // If a browser throttled the timer while the page was hidden, send on page
+  // teardown only when the full inactivity period has already elapsed.
   function flushLead() {
     if (!LEAD_URL) return;
     if (!lead.phone && !lead.email) return;
+    if (!leadLastActivityAt || Date.now() - leadLastActivityAt < LEAD_IDLE_MS) return;
     if (leadSignature() === leadSentSig) return;
     leadSentSig = leadSignature();
     try {
@@ -464,7 +495,7 @@
     var num = PHONES[lead.region];
     var tail = num ? " If you'd rather call now, we're at " + num + "." : "";
     botThen("Thank you" + (n ? ", " + n : "") + "! \uD83C\uDF89 Someone from our Empire ABA team will reach out very soon." + tail + " Talk soon!", function () {
-      sendLead();
+      completeLead();
     });
   }
   function leadPayload(status) {
